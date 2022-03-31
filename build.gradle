@@ -1,0 +1,54 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id "java"
+}
+
+group 'com.solace.demo.lvq'
+version '1.0'
+def longVersion = version + ", Build time: "+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+jar {
+    archiveFileName = rootProject.name+".jar"
+    manifest {
+        attributes "Main-Class": "com.solace.demo.lvq.App",
+                'Implementation-Title': rootProject.name,
+                'Implementation-Version': archiveVersion
+    }
+
+    from {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    // This dependency is used by the application.
+    // https://mvnrepository.com/artifact/com.beust/jcommander
+    implementation group: 'com.beust', name: 'jcommander', version: '1.82'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+    // https://mvnrepository.com/artifact/org.apache.qpid/qpid-jms-client
+    implementation group: 'org.apache.qpid', name: 'qpid-jms-client', version: '1.5.0'
+}
+
+tasks.named('test') {
+    // Use junit platform for unit tests.
+    useJUnitPlatform()
+}
