@@ -26,7 +26,9 @@ public class App {
         ConnectionFactory connectionFactory = new JmsConnectionFactory(conf.user, conf.pwd, conf.host);
         try (var context = connectionFactory.createContext()) {
             logger.info("Connected to {} with username {}", conf.host, conf.user);
-            var listener = new DumpMessageListener();
+            var dumpListener = new DumpMessageListener();
+            var listener = new LVQListener(dumpListener);
+
             if (Objects.nonNull(conf.topicName)){
                 logger.info("Subscribe to TOPIC [{}]", conf.topicName);
                 var topic = context.createTopic(conf.topicName);

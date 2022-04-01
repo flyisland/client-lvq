@@ -23,9 +23,9 @@ public class DumpMessageListener implements MessageListener {
                 bMsg.readBytes(bytes);
                 body = new String(bytes);
             }
-            logger.info("onMessage: [{}]\n{}", dest.toString(),body);
-            String s = message.getJMSDestination().toString();
-        } catch (JMSException e) {
+            logger.info("[{}]:{}", dest.toString(),body);
+            Thread.sleep(1000);
+        } catch (JMSException | InterruptedException e) {
             e.printStackTrace();
         }
     }
