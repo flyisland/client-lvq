@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 public class App {
     protected static final Logger logger = LoggerFactory.getLogger(App.class);
     private Conf conf = new Conf();
-    private CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) {
         App app = new App();
@@ -43,9 +42,8 @@ public class App {
             }
             logger.info("Waiting for messages ...");
             context.start();
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            CtrlCHelper.waitForCtrlC("Press Ctrl+C to exit");
+            logger.info("Existing ...");
         }
     }
 }
