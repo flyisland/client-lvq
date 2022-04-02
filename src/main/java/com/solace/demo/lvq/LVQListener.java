@@ -41,22 +41,24 @@ public class LVQListener implements MessageListener {
         while (true) {
             // wait for new messages
             signalQueue.take();
-            System.out.println("\n---");
-            var keys = new ArrayList<>(lvqMap.keySet());
-            if (keys.size() == 0){
-                continue;
-            }
+            processMessages();
+        }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void processMessages() {
+        System.out.println("\n---");
+        while (lvqMap.size() > 0) {
+            var keys = new ArrayList<>(lvqMap.keySet());
             keys.forEach(key -> {
-                // take the last message out of the LVQ
+                // take the last message out of the LVQ for each topic
                 var message = lvqMap.get(key);
                 lvqMap.remove(key, message);
                 // handle this message
                 listener.onMessage(message);
             });
-        }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
