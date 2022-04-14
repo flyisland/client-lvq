@@ -1,5 +1,9 @@
 # Client side Last Value Queue Demo
 
+A client-side LVQ implementation that keeps the last message for every single topic in the client-side cache.
+
+So if the client is slow on some messages and can not catch up with the publisher, its listener will ignore those stale messages and always receive the latest one.
+
 ## 1. Run `./gradlew build` to build this project.
 ## 2. Run `java -jar ./build/libs/client-lvq.jar -h amqp://localhost:5672 -t "fx/>"`
 
