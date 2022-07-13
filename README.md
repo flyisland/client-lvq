@@ -75,7 +75,7 @@ Sending '2022-04-01-08:54:23' to topic 'fx/rt/USD/JPY'
 ```
 ## 4. Check the output of the client-lvq.jar
 
-You can see that the DumpMessageListener always gets the last message of each topic.
+You can see that the DumpMessageListener(which will sleep 1 second on processing every message) always gets the last message of each topic.
 
 ```bash
 ❯ java -jar ./build/libs/client-lvq.jar -h amqp://localhost:5672 -t "fx/>"
